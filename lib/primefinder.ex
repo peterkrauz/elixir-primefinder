@@ -1,8 +1,9 @@
 defmodule Primefinder do
-  @chunk_size 10
 
   def find_primes_in_range(number_range) do
-    Enum.chunk_every(number_range, @chunk_size)
+    chunk_size = Application.get_env(:primefinder, :chunk_size, 10)
+
+    Enum.chunk_every(number_range, chunk_size)
     |> Enum.map(&count_primes_in_range/1)
     |> Enum.map(&Task.await/1)
     |> Enum.sum
